@@ -192,19 +192,19 @@ function updateTimerDisplay() {
         clearInterval(timerInterval);
         clockedIn = false;
 
-		var userInput = prompt("总结今天学到的知识：", "");
+		var userInput = prompt("总结今天学到看到的东西：", "");
 
 		if (userInput !== null) {
         console.log("用户输入：" + userInput);
-        alert("您输入的文本是：" + userInput);
+        alert("总结今天学到看到的东西：" + userInput);
     } else {
         console.log("用户取消了输入。");
     }
 
-	var userInput0 = prompt("明天的学习计划：", "");
+	var userInput0 = prompt("明天的计划：", "");
 	if (userInput0 !== null) {
         console.log("用户输入：" + userInput0);
-        alert("您输入的文本是：" + userInput0);
+        alert("明天的计划：" + userInput0);
     } else {
         console.log("用户取消了输入。");
     }
