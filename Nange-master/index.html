@@ -15,7 +15,7 @@
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
 
-	<style>
+		<style>
 		body {
             display: flex;
             align-items: center;
@@ -62,8 +62,7 @@
 			<header id="header">
 				<h1>自律助手</h1>
 				<p>&nbsp;&bull;&nbsp; 越努力越幸运！ &nbsp;&bull;&nbsp;</p>
-				<nav>
-					<span id="time"></span><button id="button" class="my-button-default" onclick="anniu()">工作开始计时</button> </span><br>  <!--工作时间 startTimer()  -->
+					<span id="time1"></span><button id="button0" class="my-button-default" onclick="anniu()">工作开始计时</button> </span><br>  <!--工作时间 startTimer()  -->
  <span id="c">  </span> <br>    <!--每月工资   -->
 <span id="a">  </span> <br>      <!--每天工资  Meitiangongzhi()   -->
 <span id="b">  </span> <br>     <!--每秒工资    -->
@@ -120,11 +119,11 @@ updatePageState();
 function updatePageState() {
     if (clockedIn) {
         // 如果已经打卡，则隐藏按钮并开始计时
-        document.getElementById('button').style.display = 'none';
+        document.getElementById('button0').style.display = 'none';
         startTimer();
     } else {
         // 如果未打卡或时间大于15秒，则显示按钮
-        document.getElementById('button').style.display = 'block';
+        document.getElementById('button0').style.display = 'block';
     }
 }
 
@@ -143,7 +142,7 @@ function clockIn() {
         startTimer();
 
         // 隐藏打卡按钮
-        document.getElementById('button').style.display = 'none';
+        document.getElementById('button0').style.display = 'none';
     } else {
         // 如果已经打卡且时间不大于15秒，则重置时间
         startTime = new Date().getTime();
@@ -180,7 +179,7 @@ function updateTimerDisplay() {
 
         var g = m * e
     // 更新页面上显示计时器的元素
-    document.getElementById('time').textContent = '工作时间：' + formattedTime;
+    document.getElementById('time1').textContent = '工作时间：' + formattedTime;
     document.getElementById("c").textContent = '每月工资：' + month + "元";
     Meitiangongzhi();//调用的是计算每天工资
     GongZhi();   //每秒工资
@@ -217,10 +216,10 @@ function updateTimerDisplay() {
         localStorage.setItem('workTimerData', JSON.stringify(storedData));
 
         // 显示打卡按钮
-        document.getElementById('button').style.display = 'block';
+        document.getElementById('button0').style.display = 'block';
 
         // 更新页面上显示计时器的元素
-        document.getElementById('time').textContent = '工作时间：00:00:00';
+        document.getElementById('time1').textContent = '工作时间：00:00:00';
 		
 		
     }
