@@ -23,10 +23,8 @@
             height: 100vh;
             margin: 0;
         }
-
-
         /* 样式化按钮 */
-        #button {
+        .my-button-default {
             padding: 10px 20px;
             font-size: 16px;
             text-align: center;
@@ -69,8 +67,8 @@
  <span id="c">  </span> <br>    <!--每月工资   -->
 <span id="a">  </span> <br>      <!--每天工资  Meitiangongzhi()   -->
 <span id="b">  </span> <br>     <!--每秒工资    -->
-<span id="gongzhi"></span>          <!--今天已挣  GongZhi();   -->
-
+<span id="gongzhi"></span>  <br>        <!--今天已挣  GongZhi();   -->
+<span id="jihua"><button   class="my-button-default" onclick="jihua()">昨天给今天的计划</button> </span><br>
 </body>
 <script>
 var intervalId;
@@ -81,6 +79,7 @@ function anniu(){
     clockIn();     //调用工作时间方法
     Meitiangongzhi();//调用的是计算每天工资
     GongZhi();   //今天已挣
+    jihua();
 }
 
 // ---------------------------------每月工资------------------------------
@@ -154,7 +153,8 @@ function clockIn() {
         localStorage.setItem('workTimerData', JSON.stringify(storedData));
     }
 }
-
+var storedValue;
+var userInput0;
 function startTimer() {
     // 开始计时，每秒更新一次
     timerInterval = setInterval(updateTimerDisplay, 1000);
@@ -192,22 +192,25 @@ function updateTimerDisplay() {
         clearInterval(timerInterval);
         clockedIn = false;
 
-		var userInput = prompt("总结今天学到看到的东西：", "");
+        var userInput1 = prompt("今天实际学习时间：", "");
+	
 
-		if (userInput !== null) {
-        console.log("用户输入：" + userInput);
-        alert("总结今天学到看到的东西：" + userInput);
-    } else {
-        console.log("用户取消了输入。");
-    }
 
-	var userInput0 = prompt("明天的计划：", "");
+		var userInput = prompt("总结今天学到的知识：", "");
+
+         userInput0 = prompt("明天的学习计划：", "");
+        // 存储数据
+        localStorage.setItem("昨天给今天的计划", userInput0);
+
+
 	if (userInput0 !== null) {
-        console.log("用户输入：" + userInput0);
-        alert("明天的计划：" + userInput0);
-    } else {
-        console.log("用户取消了输入。");
-    }
+     
+        alert("今天的全部总结\n今天实际的学习时间："+ userInput1+"\n今天学到的知识："+ userInput+"\n明天的计划："+userInput0)
+    } 
+   
+
+
+
         // 重置 localStorage 数据
         storedData.clockedIn = clockedIn;
         storedData.startTime = null;
@@ -223,10 +226,15 @@ function updateTimerDisplay() {
     }
 }
 
+function jihua(){
+    var storedValue = localStorage.getItem("昨天给今天的计划");
+    alert("昨天给今天的计划:"+storedValue);
+}
+
 function isTimeGreaterThan15Hours() {
     // 判断时间是否大于15小时
-    return (new Date().getTime() - startTime) > (12 * 60 * 60 * 1000);
-    // return (new Date().getTime() - startTime) > (1 * 60 * 1000);
+    // return (new Date().getTime() - startTime) > (12 * 60 * 60 * 1000);
+    return (new Date().getTime() - startTime) > (10 * 1000);
 }
 
 function padNumber(number) {
