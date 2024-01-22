@@ -1,0 +1,115 @@
+function mobilecheck() {
+  var check = false;
+  (function (a) {
+    if (/android.*?mobile|ipod|blackberry|bb\d+|phone/i.test( a ))
+      check = true;
+  })(navigator.userAgent || navigator.vendor || window.opera);
+  return check;
+}
+var getReferFrom = function () {
+  var domainMatches = [{
+    test: /163\.com$/i,
+    domain: '163'
+  },
+  {
+    test: /baidu\.com$/i,
+    domain: 'baidu'
+  },
+  {
+    test: /sm\.cn$/i,
+    domain: 'sm'
+  },
+  {
+    test: /sogou\.com$/i,
+    domain: 'sogou'
+  },
+  {
+    test: /so\.com$/i,
+    domain: '360'
+  },
+  {
+    test: /google/i,
+    domain: 'google'
+  },
+  {
+    test: /bing/i,
+    domain: 'bing'
+  },
+  {
+    test: /weibo/i,
+    domain: 'weibo'
+  },
+  {
+    test: /toutiao/i,
+    domain: 'toutiao'
+  }
+  ];
+  var referrer = document.referrer
+  var referDomain = ''
+  var currentPageRefer = '';
+  if (referrer) {
+    var urlRegexp = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)([^\/]+).*?/
+    var urlMatch = referrer.match(urlRegexp)
+    referDomain = urlMatch && urlMatch[2] ? urlMatch[2] : referDomain
+  }
+  if (referDomain) {
+    currentPageRefer = referDomain
+    for (var i = 0, item; i < domainMatches.length; i++) {
+      item = domainMatches[i]
+      if (item.test.test(referDomain)) {
+        currentPageRefer = item.domain;
+        break;
+      }
+    }
+  }
+  return currentPageRefer
+}
+
+var matches = /\/article\/([A-Z0-9]{16})\.html/.exec(window.location.pathname) || ['', '']
+var docid = matches[1]
+
+if(mobilecheck() && docid){
+    window.location.href = 'https://m.163.com/news/article/'+docid+'.html?referFrom=' + getReferFrom() + '&spss=adap_dy';
+  // if (getReferFrom() === "baidu" || navigator.userAgent.toLowerCase().indexOf("baidu") > 0) {
+  //   window.location.href = 'https://3g.163.com/news/article/'+docid+'.html?referFrom=' + getReferFrom() + '&spss=adap_dy';
+  // } else {
+  //   window.location.href = 'https://c.m.163.com/news/a/'+docid+'.html?referFrom=' + getReferFrom() + '&spss=adap_dy';
+  // }
+}
+
+// http 跳转 https
+var targetProtocol = 'https:'
+if (window.location.protocol != targetProtocol) {
+  var host = window.location.host
+  var pathname = window.location.pathname
+  var search = window.location.search
+  var hash = window.location.hash
+  if (host === 'dy.163.com') {
+    //TODO: 先过滤参数,防止重复添加参数
+    var filterSearch = function (search, filterParams) {
+      if (search) {
+        var searchArr = search.substr(1).split('&')
+        if (searchArr.length > 0) {
+          var newParams = []
+          for (var i = 0, len = searchArr.length; i < len; i++) {
+            var param = searchArr[i]
+            if (filterParams.indexOf(param.split('=')[0]) === -1) {
+              newParams.push(param)
+            }
+          }
+          search = '?' + newParams.join('&')
+        }
+      }
+      return search;
+    }
+    search = filterSearch(search, ['referFrom', 'isFromOtherWeb']);
+    if (search) {
+      search = search + (search.length === 1 ? '' : '&') + 'referFrom=' + getReferFrom();
+    } else {
+      search = '?referFrom=' + getReferFrom();
+    }
+    var targetHref = targetProtocol + '//' + host + pathname + search + hash;
+    console.log(targetHref);
+    window.location.replace(targetHref);
+  }
+}

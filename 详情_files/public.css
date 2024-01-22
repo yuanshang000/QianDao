@@ -1,0 +1,11 @@
+.dixian{
+		line-height: 40px;
+		font-size: 13px;
+		color: #CCCCCC;
+		text-align: center;
+		letter-spacing: 1.5px;
+	}
+
+[v-cloak]{
+  display: none;
+}
